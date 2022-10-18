@@ -55,6 +55,7 @@ class RustManager:
         self.client.save()
         self._stop_server()
         self._start_server()
+        DBClient().insert_reboot_timestamp()
 
     def major_update(self):
         self._reset_seed()
