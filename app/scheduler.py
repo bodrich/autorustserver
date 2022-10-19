@@ -15,7 +15,7 @@ class Scheduler:
         manager = self.DEFAULT_MANAGER()
         updater = self.DEFAULT_UPDATER()
 
-        if manager.check_running_server():
+        if not manager.check_running_server():
             logging.info('Сервер не запущен, запускаем')
             return manager.check_running_server()
 
