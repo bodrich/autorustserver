@@ -34,10 +34,7 @@ class RustManager:
         run_command(f'{settings.PATH_FOR_RUSTSERVER_SCRIPT} start')
 
     def check_running_server(self):
-        output: str = run_command(self.COMMAND_FOR_CHECK_SERVER)
-        if output.find(self.FIND_TEXT_FOR_CHECK_SERVER) != -1:
-            return True
-        return False
+        return RCONClient().check_connection()
 
     def _reset_seed(self, path_for_config: FilePath = settings.PATH_FOR_CONFIG):
         logging.info('Сброс сида')
