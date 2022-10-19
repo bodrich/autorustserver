@@ -29,6 +29,7 @@ class RCONClient:
                 f"ws://{self.address}/{self.password}",
                 timeout=self.DEFAULT_WEBSOCKET_CHECK_CONNECTION_SECOND,
             )
+            print(1111)
             connect.close()
         except (WebSocketException, socket.error) as error:
             logging.info('При чеке коннекшнена ошибка:', error)
