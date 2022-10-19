@@ -3,7 +3,7 @@ import subprocess
 from app.utils.exceptions import ShellCommandErrorException
 
 
-def run_command(command: str):
+def run_command(command: str) -> str:
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
 
@@ -12,4 +12,4 @@ def run_command(command: str):
     if error:
         raise ShellCommandErrorException(f"Ошибка исполнения команды {command}. Ошибка: {error}")
 
-    return output
+    return output.decode('utf8')
