@@ -32,7 +32,7 @@ class RCONClient:
             print(1111)
             connect.close()
         except (WebSocketException, socket.error) as error:
-            logging.info('При чеке коннекшнена ошибка:', error)
+            logging.info(f'При чеке коннекшнена ошибка: f{error}')
             return False
         return True
 
