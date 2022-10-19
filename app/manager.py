@@ -18,6 +18,8 @@ class RustManager:
     PLANNED_REBOOT_SECONDS: int = settings.PLANNED_REBOOT_SECONDS
     MESSAGE_FOR_REBOOT: str = settings.MESSAGE_FOR_REBOOT
     DEFAULT_RCON_CLIENT: Type[RCONClient] = RCONClient
+    COMMAND_FOR_CHECK_SERVER: str = 'ps -ef | grep RustDedicated'
+    FIND_TEXT_FOR_CHECK_SERVER: str = './RustDedicated'
 
     def __init__(self):
         self.client: RCONClient = self.DEFAULT_RCON_CLIENT()
@@ -30,6 +32,12 @@ class RustManager:
 
     def _start_server(self):
         run_command(f'{settings.PATH_FOR_RUSTSERVER_SCRIPT} start')
+
+    def check_running_server(self):
+        output: str = run_command(self.COMMAND_FOR_CHECK_SERVER)
+        if output.find(self.FIND_TEXT_FOR_CHECK_SERVER) != -1:
+            return True
+        return False
 
     def _reset_seed(self, path_for_config: FilePath = settings.PATH_FOR_CONFIG):
         logging.info('Сброс сида')

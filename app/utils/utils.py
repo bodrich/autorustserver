@@ -11,3 +11,5 @@ def run_command(command: str):
 
     if error:
         raise ShellCommandErrorException(f"Ошибка исполнения команды {command}. Ошибка: {error}")
+
+    return output

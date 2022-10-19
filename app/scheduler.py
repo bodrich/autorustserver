@@ -15,6 +15,10 @@ class Scheduler:
         manager = self.DEFAULT_MANAGER()
         updater = self.DEFAULT_UPDATER()
 
+        if manager.check_running_server():
+            logging.info('Сервер не запущен, запускаем')
+            return manager.check_running_server()
+
         if updater.check_wipe():
             logging.info('Глобальное обновление')
             return manager.major_update()
@@ -30,7 +34,10 @@ class Scheduler:
     def run(self):
         while True:
             logging.info('Старт цикла')
-            self.run_cycle()
+            try:
+                self.run_cycle()
+            except Exception as error:
+                logging.error(f'Глобальная ошибка: {error}')
             logging.info(f'Конец цикла, спим {settings.CHECK_INTERVAL_SECONDS} секунд')
 
             sleep(settings.CHECK_INTERVAL_SECONDS)

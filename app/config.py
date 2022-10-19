@@ -21,8 +21,6 @@ class Settings(BaseSettings):
 
     CHECK_INTERVAL_SECONDS: int = 60 * 5
 
-    #PATH_FOR_MANIFEST: str = '../serverfiles/steamapps/appmanifest_258550.acf'
-
 
 settings = Settings(_env_file='.environment')
 
