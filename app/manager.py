@@ -27,10 +27,10 @@ class RustManager:
     def _start_update(self):
         run_command(f'{settings.PATH_FOR_RUSTSERVER_SCRIPT} update')
 
-    def _stop_server(self):
+    def stop_server(self):
         run_command(f'{settings.PATH_FOR_RUSTSERVER_SCRIPT} stop')
 
-    def _start_server(self):
+    def start_server(self):
         run_command(f'{settings.PATH_FOR_RUSTSERVER_SCRIPT} start')
 
     def check_running_server(self):
@@ -53,7 +53,7 @@ class RustManager:
         sleep(self.MINOR_UPDATE_SECONDS)
         self.client.kickall()
         self.client.save()
-        self._start_update()
+        self.start_server()
         DBClient().insert_reboot_timestamp()
 
     def planned_reboot(self):
@@ -61,13 +61,13 @@ class RustManager:
         sleep(self.PLANNED_REBOOT_SECONDS)
         self.client.kickall()
         self.client.save()
-        self._stop_server()
-        self._start_server()
+        self.stop_server()
+        self.start_server()
         DBClient().insert_reboot_timestamp()
 
     def major_update(self):
         self._reset_seed()
-        self._start_update()
+        self.start_server()
         DBClient().insert_wipe_timestamp()
         DBClient().insert_reboot_timestamp()
 

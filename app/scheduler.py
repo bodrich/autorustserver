@@ -17,7 +17,7 @@ class Scheduler:
 
         if not manager.check_running_server():
             logging.info('Сервер не запущен, запускаем')
-            return manager.check_running_server()
+            return manager._start_server()
 
         if updater.check_wipe():
             logging.info('Глобальное обновление')
