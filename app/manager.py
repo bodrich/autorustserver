@@ -18,7 +18,7 @@ class RustManager:
     PLANNED_REBOOT_SECONDS: int = settings.PLANNED_REBOOT_SECONDS
     MESSAGE_FOR_REBOOT: str = settings.MESSAGE_FOR_REBOOT
     DEFAULT_RCON_CLIENT: Type[RCONClient] = RCONClient
-    COMMAND_FOR_CHECK_SERVER: str = 'ps all'
+    COMMAND_FOR_CHECK_SERVER: str = 'ps -aux'
     FIND_TEXT_FOR_CHECK_SERVER: str = r'./RustDedicated'
 
     def __init__(self):
