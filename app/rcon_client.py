@@ -1,5 +1,6 @@
 import json
 import logging
+import socket
 
 import websocket
 from websocket import WebSocketException
@@ -29,7 +30,7 @@ class RCONClient:
                 timeout=self.DEFAULT_WEBSOCKET_CHECK_CONNECTION_SECOND,
             )
             connect.close()
-        except WebSocketException:
+        except (WebSocketException, socket.error):
             return False
         return True
 
