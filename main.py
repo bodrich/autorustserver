@@ -1,4 +1,6 @@
+from app.rcon_client import RCONClient
 from app.scheduler import Scheduler
 
 if __name__ == '__main__':
-    Scheduler().run()
+    RCONClient().kickall()
+    #Scheduler().run()

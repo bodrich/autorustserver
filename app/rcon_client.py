@@ -30,7 +30,8 @@ class RCONClient:
                 timeout=self.DEFAULT_WEBSOCKET_CHECK_CONNECTION_SECOND,
             )
             connect.close()
-        except (WebSocketException, socket.error):
+        except (WebSocketException, socket.error) as error:
+            logging.info('При чеке коннекшнена ошибка:', error)
             return False
         return True
 
