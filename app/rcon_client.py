@@ -10,7 +10,7 @@ from app.config import settings
 
 class RCONClient:
     DEFAULT_RCON_NAME = "WebRcon"
-    SAVE_COMMAND = 'save'
+    SAVE_COMMAND = 'server.save'
     KICKALL_COMMAND = 'kickall'
     SAY_COMMAND = 'say'
     DEFAULT_WEBSOCKET_CHECK_CONNECTION_SECOND = 3
