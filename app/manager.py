@@ -50,6 +50,7 @@ class RustManager:
         sleep(self.MINOR_UPDATE_SECONDS)
         self.client.kickall()
         self.client.save()
+        self._start_update()
         self.start_server()
         DBClient().insert_reboot_timestamp()
 
