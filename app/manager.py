@@ -12,9 +12,7 @@ from app.utils.utils import run_command
 
 
 class RustManager:
-    MINOR_UPDATE_MINUTES: int = settings.MINOR_UPDATE_MINUTES
     MINOR_UPDATE_SECONDS: int = settings.MINOR_UPDATE_SECONDS
-    PLANNED_REBOOT_MINUTES: int = settings.PLANNED_REBOOT_MINUTES
     PLANNED_REBOOT_SECONDS: int = settings.PLANNED_REBOOT_SECONDS
     MESSAGE_FOR_REBOOT: str = settings.MESSAGE_FOR_REBOOT
     DEFAULT_RCON_CLIENT: Type[RCONClient] = RCONClient
@@ -25,7 +23,7 @@ class RustManager:
         self.client: RCONClient = self.DEFAULT_RCON_CLIENT()
 
     def _start_update(self):
-        run_command(f'{settings.PATH_FOR_RUSTSERVER_SCRIPT} update')
+        run_command(f'{settings.PATH_FOR_RUSTSERVER_SCRIPT} force-update')
 
     def stop_server(self):
         run_command(f'{settings.PATH_FOR_RUSTSERVER_SCRIPT} stop')
@@ -46,8 +44,10 @@ class RustManager:
             fp.flush()
 
     def minor_update(self):
-        self.client.send_message_to_players(self.MESSAGE_FOR_REBOOT.format(self.MINOR_UPDATE_MINUTES))
-        sleep(self.MINOR_UPDATE_SECONDS)
+        self.client.send_message_to_players(self.MESSAGE_FOR_REBOOT.format(self.MINOR_UPDATE_SECONDS / 60))
+        for seconds in range(self.MINOR_UPDATE_SECONDS, 0, -60):
+            self.client.send_message_to_players(self.MESSAGE_FOR_REBOOT.format(int(seconds) / 60))
+            sleep(60)
         self.client.kickall()
         self.client.save()
         self._start_update()
@@ -55,8 +55,10 @@ class RustManager:
         DBClient().insert_reboot_timestamp()
 
     def planned_reboot(self):
-        self.client.send_message_to_players(self.MESSAGE_FOR_REBOOT.format(self.PLANNED_REBOOT_MINUTES))
-        sleep(self.PLANNED_REBOOT_SECONDS)
+        self.client.send_message_to_players(self.MESSAGE_FOR_REBOOT.format(self.PLANNED_REBOOT_SECONDS / 60))
+        for seconds in range(self.PLANNED_REBOOT_SECONDS, 0, -60):
+            self.client.send_message_to_players(self.MESSAGE_FOR_REBOOT.format(int(seconds) / 60))
+            sleep(60)
         self.client.kickall()
         self.client.save()
         self.stop_server()
@@ -65,6 +67,7 @@ class RustManager:
 
     def major_update(self):
         self._reset_seed()
+        self._start_update()
         self.start_server()
         DBClient().insert_wipe_timestamp()
         DBClient().insert_reboot_timestamp()
