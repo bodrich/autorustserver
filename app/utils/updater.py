@@ -52,7 +52,7 @@ class Updater:
 
         logging.info(f'Последний вайп {last_wipe_datetime}')
 
-        if datetime.now() - last_wipe_datetime > INTERVAL_MONTH_WIPE and datetime.today() == THURSDAY_NUMBER:
+        if datetime.now() - last_wipe_datetime > INTERVAL_MONTH_WIPE and datetime.today().weekday() == THURSDAY_NUMBER:
             return True
         return False
 
