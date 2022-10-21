@@ -43,22 +43,21 @@ class RustManager:
             fp.write(re.sub("""seed="(.+?)\"""", 'seed=""', text))
             fp.flush()
 
+    def _alert_reboot(self, full_seconds: int):
+        for seconds in range(full_seconds, 0, -60):
+            #self.client.send_message_to_players(self.MESSAGE_FOR_REBOOT.format(int(seconds / 60)))
+            print(print(self.MESSAGE_FOR_REBOOT.format(int(seconds / 60))))
+            #sleep(60)
+
     def minor_update(self):
-        self.client.send_message_to_players(self.MESSAGE_FOR_REBOOT.format(self.MINOR_UPDATE_SECONDS / 60))
-        for seconds in range(self.MINOR_UPDATE_SECONDS, 0, -60):
-            self.client.send_message_to_players(self.MESSAGE_FOR_REBOOT.format(int(seconds) / 60))
-            sleep(60)
+        self._alert_reboot(self.MINOR_UPDATE_SECONDS)
         self.client.kickall()
         self.client.save()
         self._start_update()
-        self.start_server()
         DBClient().insert_reboot_timestamp()
 
     def planned_reboot(self):
-        self.client.send_message_to_players(self.MESSAGE_FOR_REBOOT.format(self.PLANNED_REBOOT_SECONDS / 60))
-        for seconds in range(self.PLANNED_REBOOT_SECONDS, 0, -60):
-            self.client.send_message_to_players(self.MESSAGE_FOR_REBOOT.format(int(seconds) / 60))
-            sleep(60)
+        self._alert_reboot(self.PLANNED_REBOOT_SECONDS)
         self.client.kickall()
         self.client.save()
         self.stop_server()
@@ -67,8 +66,8 @@ class RustManager:
 
     def major_update(self):
         self._reset_seed()
+        self.stop_server()
         self._start_update()
-        self.start_server()
         DBClient().insert_wipe_timestamp()
         DBClient().insert_reboot_timestamp()
 

@@ -11,10 +11,8 @@ class Settings(BaseSettings):
     PATH_FOR_MANIFEST: FilePath
     PATH_FOR_CONFIG: FilePath
     PATH_FOR_RUSTSERVER_SCRIPT: FilePath
-    MINOR_UPDATE_MINUTES: int = 15
-    MINOR_UPDATE_SECONDS: int = MINOR_UPDATE_MINUTES * 60
-    PLANNED_REBOOT_MINUTES: int = 15
-    PLANNED_REBOOT_SECONDS: int = PLANNED_REBOOT_MINUTES * 60
+    MINOR_UPDATE_SECONDS: int = 900
+    PLANNED_REBOOT_SECONDS: int = 900
     MESSAGE_FOR_REBOOT: str = 'Сервер будет перезагружен через {} минут.'
 
     REBOOT_TIME_HOUR: int = 6
